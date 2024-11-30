@@ -1,17 +1,25 @@
 package org.inasayaflanderin.blockchaine;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Blockchain bc = new Blockchain();
+        //test code here
+        User alice = new User("Alice", 1, 1, 1998, bc);
+        User bob = new User("Bob", 3, 12, 2004, bc);
+        User charlie = new User("Charlie", 13, 11, 2007, bc);
+        User dave = new User("Dave", 26, 3, 1980, bc);
+        User eve = new User("Eve", 31, 12, 1999, bc);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        alice.performTransaction(bob, "Test", 100);
+        charlie.performTransaction(dave, "Test2", 320);
+        eve.performTransaction(alice, "Test3", 50);
+
+        System.out.println(bc);
+
+        bob.performTransaction(charlie, "Test4", 200);
+        dave.performTransaction(eve, "Test5", 1000);
+
+        System.out.println(bc);
+        System.out.println(alice.getLocal().equals(bc));
     }
 }
