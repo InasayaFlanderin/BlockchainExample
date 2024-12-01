@@ -3,6 +3,7 @@ package org.inasayaflanderin.blockchaine;
 import lombok.Getter;
 
 public class Block {
+    //hash is very importance to check if the block is modified because of abusive (aka misuse, injection, hack, etc.)
     @Getter
     private final int previousHash;
     @Getter
@@ -15,6 +16,7 @@ public class Block {
         this.hash = calculateHash(transaction, previousHash);
     }
 
+    //calculating hash
     private int calculateHash(Transaction transaction, int previousHash) {
         int rawHash = transaction.hashCode();
         rawHash |= 3;

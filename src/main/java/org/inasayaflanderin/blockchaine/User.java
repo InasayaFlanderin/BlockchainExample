@@ -32,6 +32,11 @@ public class User {
         this.localBlockchain = local;
     }
 
+    /*
+    * Perform transaction from user to user with specific amount
+    * Ensure amount >= 0 ( 0 mean test )
+    * Create new transaction and give it to local Blockchain
+    * */
     public void performTransaction(User received, String data, int amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Amount must be positive");

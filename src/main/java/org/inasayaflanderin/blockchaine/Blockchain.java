@@ -13,17 +13,20 @@ public class Blockchain {
         notifiedUsers = new LinkedList<>();
     }
 
+    //add new user and update all blockchain from other user
     public void addUser(User user) {
         notifiedUsers.add(user);
+        notifiedUsers.stream().filter(users -> !users.equals(user)).forEach(users -> users.setLocal(this));
     }
 
+    /*
+    * Creating a new Block on transaction
+    * Check nonce for all users except for who except it
+    * if refused print message
+    * else add and perform the transaction and update to all user
+    * */
     public void addTransaction(Transaction transaction) {
-        Block block;
-        if (blockList.isEmpty()) {
-            block = new Block(0, transaction);
-        } else {
-            block = new Block(blockList.getLast().getHash(), transaction);
-        }
+        Block block = blockList.isEmpty() ? new Block(0, transaction) : new Block(blockList.getLast().getHash(), transaction);
 
         if(checkNonce(transaction.getPerformed())) {
             blockList.add(block);
@@ -33,6 +36,7 @@ public class Blockchain {
         }
     }
 
+    //check nonce ( real logic is more complicated )
     public boolean checkNonce(User performed) {
         return notifiedUsers.stream().filter(user -> !user.equals(performed)).allMatch(user -> user.getLocal().equals(this));
     }
@@ -40,6 +44,7 @@ public class Blockchain {
     public boolean equals(Object o) {
         if(!(o instanceof Blockchain)) return false;
 
+        //check if the block is modified or not, then check if both blockchain is right
         return ((Blockchain) o).blockList.equals(this.blockList) && IntStream.range(1, blockList.size())
                 .allMatch(i -> blockList.get(i).getPreviousHash() == blockList.get(i - 1).getHash());
     }
